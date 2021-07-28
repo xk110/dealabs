@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS DEAL;
 CREATE TABLE DEAL
 (
     ID INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID),
-    title VARCHAR(100),
+    title VARCHAR(500),
     description VARCHAR(5000),
     degree INT,
     price decimal(18,2),
