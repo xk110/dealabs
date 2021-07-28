@@ -1,4 +1,4 @@
-package com.commentabs.docker_microservices.commentservice;
+package com.dealabs.docker_microservices.commentservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
