@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-comment-service")
+@FeignClient(name = "zuul-server")
 @RibbonClient(name = "microservice-comment-service")
 public interface CommentServiceProxy {
 
-    @GetMapping(value = "/comments/{id_Deal}")
+    @GetMapping(value = "/microservice-comment-service/comments/{id_Deal}")
     List<CommentBean> getByIdDeal(@PathVariable String id_Deal);
 
-    @PostMapping(value = "/comments")
+    @PostMapping(value = "/microservice-comment-service/comments")
     CommentBean addComment(@RequestBody CommentBean comment);
 
 }

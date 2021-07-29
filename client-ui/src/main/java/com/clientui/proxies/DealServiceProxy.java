@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-deal-service")
+@FeignClient(name = "zuul-server")
 @RibbonClient(name = "microservice-deal-service")
 public interface DealServiceProxy {
 
-    @GetMapping(value = "/deals")
+    @GetMapping(value = "/microservice-deal-service/deals")
     List<DealBean> getAll();
 
-    @GetMapping(value = "/deals/{id}")
+    @GetMapping(value = "/microservice-deal-service/deals/{id}")
     DealBean getById(@PathVariable int id);
 
-    @PostMapping(value = "/deals")
+    @PostMapping(value = "/microservice-deal-service/deals")
     DealBean addDeal(@RequestBody DealBean deal);
 
 }
