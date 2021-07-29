@@ -2,4 +2,4 @@
 dealabs clone website
 
 # stack
-o	Stack : Architecture microservices avec gestion du load balancing et API Gateway, Spring Boot, Spring Cloud, Eureka, Ribbon, Zuul, Java 8, Angular 12
+Stack : Architecture microservices avec gestion du load balancing et API Gateway, Spring Boot, Spring Cloud, Eureka, Ribbon, Zuul, Java 8, Angular 12
