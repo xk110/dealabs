@@ -1,0 +1,9 @@
+{
+    "/**": {
+      "target": "http://client-ui:9000",
+      "secure": false,
+      "logLevel": "debug",
+      "changeOrigin": true
+    }
+  }
+  

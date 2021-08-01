@@ -1,0 +1,37 @@
+<div class="p-panel-content">
+
+    <p-table [value]="comments" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10,25,50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Comments</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-comment>
+            <tr>
+                <td>{{comment.comment}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+        </ng-template>
+    </p-table>
+
+    <form [formGroup]="commentForm" (ngSubmit)="updateDeal(); ">
+        <div class="p-field col-12 md-3">
+            <textarea id="comment" formControlName="comment" [rows]="5" [cols]="30" pInputTextarea
+                [autoResize]="autoResize" style="width: 50%;"></textarea>
+            <small id="comment-help" class="p-error"
+                *ngIf="commentForm.get('comment')?.hasError('required') && commentForm.get('comment')?.touched">Comment
+                is required</small>
+        </div>
+        <div class="p-card-footer">
+            <button pButton type="submit" class="p-button-raised p-button-rounded mr-2">add comment</button>
+        </div>
+    </form>
+
+</div>
