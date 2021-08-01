@@ -4,10 +4,13 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ClientUiApplicationTests {
+public class ClientUiApplicationTests {
 
+	public ClientUiApplicationTests(){
+
+	}
 	@Test
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }

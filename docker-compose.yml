@@ -1,6 +1,31 @@
-version: "3"
+version: "3.8"
 
 services:
+
+  eureka-server:
+    build:
+      context: ./eureka-server
+      dockerfile: ./Dockerfile
+    ports:
+      - 9102:9102
+    networks:
+      - back-network
+      
+  zuul-server:
+    build:
+      context: ./zuul-server
+      dockerfile: ./Dockerfile
+    ports:  
+      - 8762:9004
+    networks:
+      - back-network
+      - config-server-network
+    depends_on:
+      - eureka-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
+      
   client-ui:
     build:
       context: ./client-ui
@@ -8,7 +33,15 @@ services:
     ports:
       - 9000:9000
     networks:
-      - spring-cloud-network
+      - back-network
+      - front-network
+      - config-server-network
+    depends_on:
+      - eureka-server
+      - zuul-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
       
   deal-service:
     build:
@@ -17,7 +50,14 @@ services:
     ports:
       - 9001:9001
     networks:
-      - spring-cloud-network
+      - back-network
+      - config-server-network
+    depends_on:
+      - eureka-server
+      - zuul-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
       
   comment-service:
     build:
@@ -26,7 +66,32 @@ services:
     ports:
       - 9002:9002
     networks:
-      - spring-cloud-network
+      - back-network
+      - config-server-network
+    depends_on:
+      - eureka-server
+      - zuul-server
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
+
+  dealabs-ui:
+    build:
+      context: ./dealabs-ui
+      dockerfile: ./Dockerfile
+    ports:
+      - 3200:80
+    networks:
+      - back-network
+      - front-network
+      - config-server-network
+    depends_on:
+      - client-ui
+     
 networks:
-  spring-cloud-network:
+  back-network:
     driver: bridge
+  front-network:
+    driver: bridge
+  config-server-network:
+    external: true

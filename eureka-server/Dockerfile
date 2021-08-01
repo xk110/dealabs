@@ -5,10 +5,10 @@ FROM openjdk:8-jdk-alpine
 MAINTAINER Julien Nasser <julien.nasser@gmail.com>
 
 # Copy the application's jar to the container
-COPY target/comment-service-0.0.1-SNAPSHOT.jar comment-service.jar
+COPY target/eureka-server-0.0.1-SNAPSHOT.jar eureka-server.jar
 
 # Run the jar file
-ENTRYPOINT ["java","-jar","/comment-service.jar"]
+ENTRYPOINT ["java","-jar","/eureka-server.jar"]
 
-# Make port 9002 available to the world outside this container
-EXPOSE 9002
+# Make port 9102 available to the world outside this container
+EXPOSE 9102
