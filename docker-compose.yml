@@ -4,7 +4,7 @@ services:
 
   eureka-server:
     build:
-      context: ./eureka-server
+      context: ./servers/eureka-server
       dockerfile: ./Dockerfile
     ports:
       - 9102:9102
@@ -13,7 +13,7 @@ services:
       
   zuul-server:
     build:
-      context: ./zuul-server
+      context: ./servers/zuul-server
       dockerfile: ./Dockerfile
     ports:  
       - 8762:9004
@@ -28,7 +28,7 @@ services:
       
   client-ui:
     build:
-      context: ./client-ui
+      context: ./services/client-ui
       dockerfile: ./Dockerfile
     ports:
       - 9000:9000
@@ -45,7 +45,7 @@ services:
       
   deal-service:
     build:
-      context: ./deal-service
+      context: ./services/deal-service
       dockerfile: ./Dockerfile
     ports:
       - 9001:9001
@@ -61,7 +61,7 @@ services:
       
   comment-service:
     build:
-      context: ./comment-service
+      context: ./services/comment-service
       dockerfile: ./Dockerfile
     ports:
       - 9002:9002

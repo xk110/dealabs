@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { PartialObserver } from 'rxjs';
+import { PartialObserver, Subscription } from 'rxjs';
 import { Deal } from '../deal-model';
 import { DealService } from '../deal.service';
 
@@ -11,10 +11,11 @@ import { DealService } from '../deal.service';
   templateUrl: './deal-detail.component.html',
   styleUrls: ['./deal-detail.component.scss']
 })
-export class DealDetailComponent implements OnInit {
+export class DealDetailComponent implements OnInit, OnDestroy {
 
   id: string;
   deal: Deal = {} as Deal;
+  private dealSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,9 +34,15 @@ export class DealDetailComponent implements OnInit {
       }
     };
 
-    this.dealService.getById(this.id)
+    this.dealSubscription = this.dealService.getById(this.id)
       .subscribe(dealObserver);
 
+  }
+
+  ngOnDestroy() {
+    if (this.dealSubscription) {
+      this.dealSubscription.unsubscribe();
+    }
   }
 
 }

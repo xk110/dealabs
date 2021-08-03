@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
-import { Observer, PartialObserver } from 'rxjs';
+import { Observer, PartialObserver, Subscription } from 'rxjs';
 import { CommentService } from '../comment.service';
 import { Comment } from '../comment-model';
 
@@ -19,6 +19,8 @@ export class DealCommentComponent implements OnInit {
   public autoResize: boolean = true;
   first = 0;
   rows = 10;
+  private dealSubscription: Subscription;
+  private commentSubscription: Subscription;
 
   @ViewChild(FormGroupDirective, { static: true }) private formGroupDirective: FormGroupDirective;
 
@@ -40,7 +42,7 @@ export class DealCommentComponent implements OnInit {
       }
     };
 
-    this.commentService.getByIdDeal(this.idDeal)
+    this.commentSubscription = this.commentService.getByIdDeal(this.idDeal)
       .subscribe(commentObserver);
   }
 
@@ -95,10 +97,19 @@ export class DealCommentComponent implements OnInit {
         }
       };
 
-      this.commentService.create(commentToCreate).subscribe(commentObserver);
+      this.dealSubscription = this.commentService.create(commentToCreate).subscribe(commentObserver);
 
     } else {
       this.messageService.add({ severity: 'error', summary: 'update', detail: 'invalid_form', life: 5000 });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.dealSubscription) {
+      this.dealSubscription.unsubscribe();
+    }
+    if (this.commentSubscription) {
+      this.commentSubscription.unsubscribe();
     }
   }
 

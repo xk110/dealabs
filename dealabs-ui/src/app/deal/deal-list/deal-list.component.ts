@@ -44,8 +44,8 @@ export class DealListComponent implements OnInit {
       { field: 'author', header: 'Author' },
       { field: 'creationDate', header: 'Creation Date' },
       { field: 'startingDate', header: 'Starting Date' },
-      { field: 'endingDate', header: 'Ending Date' }
-
+      { field: 'endingDate', header: 'Ending Date' },
+      { field: 'action', header: 'Action' }
     ];
 
   }

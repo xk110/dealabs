@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { Observer } from 'rxjs';
+import { Observer, Subscription } from 'rxjs';
 import { Deal } from '../deal-model';
 import { DealService } from '../deal.service';
 
@@ -18,7 +18,8 @@ export class DealCreateComponent implements OnInit {
 
   public dealForm: FormGroup;
   public autoResize: boolean = true;
-  
+  private dealSubscription: Subscription;
+
   constructor(
     private route: ActivatedRoute,
     public fb: FormBuilder,
@@ -76,10 +77,16 @@ export class DealCreateComponent implements OnInit {
         }
       };
 
-      this.dealService.create(dealToCreate).subscribe(dealObserver);
+      this.dealSubscription = this.dealService.create(dealToCreate).subscribe(dealObserver);
 
     } else {
       this.messageService.add({ severity: 'error', summary: 'create', detail: 'invalid_form', life: 5000 });
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.dealSubscription) {
+      this.dealSubscription.unsubscribe();
     }
   }
 
