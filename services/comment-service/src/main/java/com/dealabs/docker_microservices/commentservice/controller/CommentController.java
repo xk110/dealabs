@@ -16,9 +16,11 @@ import java.util.List;
 public class CommentController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
-
-    @Autowired
     private CommentDao commentDao;
+
+    public CommentController(CommentDao commentDao){
+        this.commentDao = commentDao;
+    }
 
     @GetMapping(value = "/comments/{id_Deal}")
     public List<Comment> getByIdDeal(@PathVariable String id_Deal) {

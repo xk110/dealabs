@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,7 +23,8 @@ import { DealDetailComponent } from './deal/deal-detail/deal-detail.component';
 import { DealListComponent } from './deal/deal-list/deal-list.component';
 import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { TabMenuComponent } from './tab-menu/tab-menu.component';
-import {TabMenuModule} from 'primeng/tabmenu';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { RequestInterceptor } from './shared/RequestInterceptor';
 
 const prime = [
   ButtonModule,
@@ -59,7 +60,8 @@ const prime = [
     ReactiveFormsModule,
     ...prime
   ],
-  providers: [MessageService],
+  providers: [MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

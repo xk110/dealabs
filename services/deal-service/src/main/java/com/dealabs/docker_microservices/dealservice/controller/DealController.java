@@ -16,9 +16,11 @@ import java.util.List;
 public class DealController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DealController.class);
-
-    @Autowired
     private DealDao dealDao;
+
+    public DealController(DealDao dealDao){
+        this.dealDao = dealDao;
+    }
 
     @GetMapping(value = "/deals")
     public List<Deal> getAll() {
