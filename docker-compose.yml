@@ -2,6 +2,15 @@ version: "3.8"
 
 services:
 
+  config-server:
+    build:
+      context: ./servers/config-server
+      dockerfile: ./Dockerfile
+    ports:
+      - 9100:9100
+    networks:
+      - config-server-network
+
   eureka-server:
     build:
       context: ./servers/eureka-server
@@ -10,6 +19,9 @@ services:
       - 9102:9102
     networks:
       - back-network
+      - config-server-network
+    command: 
+      sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh config-server:9100 && java -jar /eureka-server.jar"
       
   zuul-server:
     build:
@@ -22,6 +34,8 @@ services:
       - config-server-network
     depends_on:
       - eureka-server
+    command: 
+      sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh eureka-server:9102 && java -jar /zuul-server.jar"
     environment:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
@@ -39,6 +53,8 @@ services:
     depends_on:
       - eureka-server
       - zuul-server
+    command: 
+      sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh eureka-server:9102 && java -jar /client-ui.jar"
     environment:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
@@ -55,6 +71,8 @@ services:
     depends_on:
       - eureka-server
       - zuul-server
+    command: 
+      sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh eureka-server:9102 && java -jar /deal-service.jar"
     environment:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
@@ -71,6 +89,8 @@ services:
     depends_on:
       - eureka-server
       - zuul-server
+    command: 
+      sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh eureka-server:9102 && java -jar /comment-service.jar"
     environment:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka

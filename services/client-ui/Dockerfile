@@ -6,9 +6,10 @@ MAINTAINER Julien Nasser <julien.nasser@gmail.com>
 
 # Copy the application's jar to the container
 COPY target/client-ui-0.0.1-SNAPSHOT.jar client-ui.jar
+COPY wait-for-it.sh /wait-for-it.sh
 
 # Run the jar file
-ENTRYPOINT ["java","-jar","/client-ui.jar"]
+#ENTRYPOINT ["java","-jar","/client-ui.jar"]
 
 # Make port 9000 available to the world outside this container
 EXPOSE 9000
