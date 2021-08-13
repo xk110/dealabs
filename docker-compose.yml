@@ -6,10 +6,12 @@ services:
     build:
       context: ./servers/config-server
       dockerfile: ./Dockerfile
+    env_file:
+      - env.list
     ports:
       - 9100:9100
     networks:
-      - config-server-network
+      - back-network
 
   eureka-server:
     build:
@@ -19,7 +21,6 @@ services:
       - 9102:9102
     networks:
       - back-network
-      - config-server-network
     command: 
       sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh config-server:9100 && java -jar /eureka-server.jar"
       
@@ -31,7 +32,6 @@ services:
       - 8762:9004
     networks:
       - back-network
-      - config-server-network
     depends_on:
       - eureka-server
     command: 
@@ -49,7 +49,6 @@ services:
     networks:
       - back-network
       - front-network
-      - config-server-network
     depends_on:
       - eureka-server
       - zuul-server
@@ -67,7 +66,6 @@ services:
       - 9001:9001
     networks:
       - back-network
-      - config-server-network
     depends_on:
       - eureka-server
       - zuul-server
@@ -85,7 +83,6 @@ services:
       - 9002:9002
     networks:
       - back-network
-      - config-server-network
     depends_on:
       - eureka-server
       - zuul-server
@@ -104,7 +101,6 @@ services:
     networks:
       - back-network
       - front-network
-      - config-server-network
     depends_on:
       - client-ui
      
@@ -113,5 +109,3 @@ networks:
     driver: bridge
   front-network:
     driver: bridge
-  config-server-network:
-    external: true
