@@ -16,12 +16,12 @@ docker-compose --env-file ./env.list up --build
 ## check servers
 eureka server : http://localhost:9102/
 
-config-server properties : 
-http://localhost:9100/microservice-client-ui/default
-http://localhost:9100/microservice-deal-service/default
-http://localhost:9100/microservice-comment-service/default
-http://localhost:9100/eureka-server/default
-http://localhost:9100/zuul-server/default
+config-server properties :  
+http://localhost:9100/microservice-client-ui/default  
+http://localhost:9100/microservice-deal-service/default  
+http://localhost:9100/microservice-comment-service/default  
+http://localhost:9100/eureka-server/default  
+http://localhost:9100/zuul-server/default  
 
 ## url dealabs-app
 http://localhost:3200/
