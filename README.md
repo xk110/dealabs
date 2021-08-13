@@ -8,7 +8,6 @@ Stack : Architecture microservices avec gestion du load balancing et API Gateway
 git clone https://github.com/xk110/dealabs.git
 
 ## build all microservices
-go to root directory
 ./mvnw install
 
 ## build images and run dockers
