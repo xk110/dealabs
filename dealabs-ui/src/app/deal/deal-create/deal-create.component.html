@@ -1,7 +1,7 @@
 <p-card>
     <p-toast></p-toast>
     <div class="p-card-header">
-        <h2>Add a new deal</h2>
+        <h2>Poster un nouveau deal</h2>
     </div>
     <form [formGroup]="dealForm" (ngSubmit)="createDeal(); ">
         <div class="p-card-content">
@@ -83,9 +83,9 @@
 
         </div>
         <div class="p-card-footer">
-            <button pButton type="submit" class="p-button-raised p-button-rounded mr-2">create</button>
-            <button pButton type="button" label="back to list" class="p-button-raised p-button-rounded"
-                routerLink="/deal-list"></button>
+            <button pButton type="submit" class="p-button-raised p-button-rounded mr-2">Valider</button>
+            <!-- <button pButton type="button" label="back to list" class="p-button-raised p-button-rounded"
+                routerLink="/deal-list"></button> -->
         </div>
     </form>
 </p-card>

@@ -1,0 +1,129 @@
+<div class="card" style="position:relative">
+    <p-splitter [style]="{'height': '350px', 'margin':'0 auto'}" [panelSizes]="[50,50]" styleClass="mt-5 mb-5">
+        <ng-template pTemplate>
+            <p-splitter layout="vertical">
+                <ng-template pTemplate>
+                    <div class="p-col p-d-flex p-ai-center p-jc-center" style="flex-grow: 1; position:relative">
+
+                        <p style="display: block;margin: auto;font-family:georgia,serif;font-size:16px;font-weight:bold;text-align:center;margin-top:20px;"
+                            *ngIf="page === 'signIn'">
+                            Rejoignez la communauté !
+                        </p>
+                        <p style="font-family:georgia,serif;font-size:16px;text-align:center;"
+                            *ngIf="page === 'signIn'">
+                            Sur Dealabs, vous trouverez les meilleurs deals de vos marques et marchands préférés,
+                            partagés par
+                            notre communauté
+                        </p>
+
+
+                        <p-button
+                            [style]="{'position':'absolute', 'bottom':'0','margin':'0 auto',  'display':'block', 'width':'100%'}"
+                            (click)="form.reset();switchPage('signUp')" *ngIf="page === 'signIn'" class="p-button-raised mr-2">
+                            Créer un
+                            compte</p-button>
+
+                        <p-button
+                            [style]="{'position':'absolute', 'bottom':'0','margin':'0 auto',  'display':'block', 'width':'100%'}"
+                            (click)="form.reset();switchPage('signIn')" *ngIf="page === 'signUp'" class="p-button-raised mr-2">Vous
+                            avez
+                            déjà un compte ?</p-button>
+
+
+                        <p style="font-family:georgia,serif;font-size:16px;font-weight:bold;text-align:center;"
+                            *ngIf="page === 'forgotPassword'">
+                            Mot de passe oublié ?
+                        </p>
+                        <p style="font-family:georgia,serif;font-size:16px;text-align:center;"
+                            *ngIf="page === 'forgotPassword'">
+                            Renseignez l'adresse e-mail avec laquelle vous vous êtes inscrit(e) ou votre pseudo et nous
+                            vous
+                            enverrons des instructions secrètes pour réinitialiser votre mot de passe.
+                        </p>
+                        <p style="font-family:georgia,serif;font-size:16px;font-weight:bold;text-align:center;"
+                            *ngIf="page === 'forgotPassword'">
+                            Réinitialisez votre mot de passe
+                        </p>
+
+                        <form [formGroup]="form" (ngSubmit)="onSubmit(); " *ngIf="page === 'forgotPassword'">
+
+                            <div class="p-card-content">
+                                <div class="p-field col-12 md-3" *ngIf="form.contains('username')">
+                                    <label for="username">Pseudo ou E-Mail</label>
+                                    <input pInputText type="text" id="username" formControlName="username" style="width: 100%;">
+                                    <small id="username-help" class="p-error"
+                                        *ngIf="form.get('username')?.hasError('required') && form.get('username')?.touched">Pseudo
+                                        is
+                                        required</small>
+                                </div>
+
+                                <p-button
+                                    [style]="{'position':'absolute', 'bottom':'0', 'margin':'0 auto', 'display':'block', 'width':'100%'}"
+                                    type="submit" class="p-button-raised mr-2">{{submitButton}}</p-button>
+                            </div>
+                        </form>
+
+                    </div>
+                </ng-template>
+            </p-splitter>
+        </ng-template>
+        <ng-template pTemplate>
+            <p-splitter layout="vertical">
+                <ng-template pTemplate>
+                    <div class="p-col p-d-flex p-ai-center p-jc-center" style="flex-grow: 1; position:relative">
+
+                        <form [formGroup]="form" (ngSubmit)="onSubmit(); " *ngIf="page !== 'forgotPassword'">
+
+                            <div class="p-field col-12 md-3" *ngIf="form.contains('email')">
+                                <label for="email">E-Mail</label>
+                                <input pInputText type="text" id="email" formControlName="email" style="width: 100%;">
+                                <small id="email-help" class="p-error"
+                                    *ngIf="form.get('email')?.hasError('required') && form.get('email')?.touched">email
+                                    is
+                                    required</small>
+                            </div>
+
+                            <div class="p-card-content">
+                                <div class="p-field col-12 md-3" *ngIf="form.contains('username')">
+                                    <label for="username">Pseudo</label>
+                                    <input pInputText type="text" id="username" formControlName="username" style="width: 100%;">
+                                    <small id="username-help" class="p-error"
+                                        *ngIf="form.get('username')?.hasError('required') && form.get('username')?.touched">Pseudo
+                                        is
+                                        required</small>
+                                </div>
+
+                                <div class="p-field col-12 md-3" *ngIf="form.contains('password')">
+                                    <label for="password">Mot de passe</label>
+                                    <input pInputText type="password" id="password" formControlName="password"
+                                        style="width: 100%;">
+                                    <small id="password-help" class="p-error"
+                                        *ngIf="form.get('password')?.hasError('required') && form.get('password')?.touched">password
+                                        is
+                                        required</small>
+                                </div>
+                            </div>
+                            <div class="p-card-footer">
+                                <p-button
+                                    [style]="{'position':'absolute', 'bottom':'0', 'margin':'0 auto', 'display':'block', 'width':'100%'}"
+                                    type="submit" class="p-button-raised mr-2">{{submitButton}}</p-button>
+                                <!-- <a href="{{deal.link}}" *ngIf="page === 'signIn'" style="text-decoration:none" target="_blank">
+                                    <span class="underline-on-hover">lien</span>Mot de passe oublié ?</a> -->
+                                <button class="link" *ngIf="page === 'signIn'"
+                                    style="font-family:georgia,serif;font-size:16px;font-weight:bold;text-align:left;"
+                                    (click)="form.reset();switchPage('forgotPassword')">Mot de passe oublié ?</button>
+                            </div>
+                        </form>
+
+
+                        <p-button *ngIf="page === 'forgotPassword'"
+                            [style]="{'position':'absolute', 'bottom':'0','margin':'0 auto',  'display':'block', 'width':'100%'}"
+                            (click)="form.reset();switchPage('signIn')" class="p-button-raised mr-2">
+                            Retour à la page de connexion</p-button>
+
+                    </div>
+                </ng-template>
+            </p-splitter>
+        </ng-template>
+    </p-splitter>
+</div>

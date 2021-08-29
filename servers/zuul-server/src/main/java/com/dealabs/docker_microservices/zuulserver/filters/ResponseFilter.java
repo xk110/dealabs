@@ -37,7 +37,6 @@ public class ResponseFilter extends ZuulFilter {
 
         HttpServletResponse response = RequestContext.getCurrentContext().getResponse();
         log.info("<-- {}", response.getStatus());
-
         return null;
     }
 }

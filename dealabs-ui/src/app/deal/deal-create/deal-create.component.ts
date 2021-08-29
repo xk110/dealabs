@@ -9,8 +9,7 @@ import { DealService } from '../deal.service';
 @Component({
   selector: 'app-deal-create',
   templateUrl: './deal-create.component.html',
-  styleUrls: ['./deal-create.component.scss'],
-  providers: [MessageService]
+  styleUrls: ['./deal-create.component.scss']
 })
 export class DealCreateComponent implements OnInit {
 

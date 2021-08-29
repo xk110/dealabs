@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { Deal } from './deal-model';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { Deal } from './deal-model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,3 +1,31 @@
-.p-button-color{
+.p-button-color {
     color: #000 !important;
+}
+
+p {
+    margin-top: 0px; /* between paragraphs */
+    margin-bottom: 0px; /* between paragraphs */
+}
+
+.underline-on-hover:hover {
+    text-decoration: underline;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+    color: #33baff;
+}
+
+button.link {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+button.link:hover {
+    text-decoration: underline;
 }

@@ -5,6 +5,7 @@ import com.dealabs.docker_microservices.dealservice.model.Deal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -23,10 +24,10 @@ public class DealController {
     }
 
     @GetMapping(value = "/deals")
-    public List<Deal> getAll() {
+    public ResponseEntity<List<Deal>> getAll() {
         List<Deal> listOfDeals = dealDao.findAll();
         LOGGER.info("listOfDeals {}", listOfDeals);
-        return listOfDeals;
+        return new ResponseEntity<List<Deal>>(listOfDeals, HttpStatus.OK);
     }
 
     @GetMapping(value = "/deals/{id}")
