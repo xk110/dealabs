@@ -2,6 +2,7 @@ package com.dealabs.docker_microservices.zuulserver.security.jwt;
 
 import com.dealabs.docker_microservices.zuulserver.constants.SecurityConstants;
 import io.jsonwebtoken.*;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,9 @@ public class JwtTokenProvider {
 
     public Optional<Authentication> createAuthentication(String token) {
 
+        if (StringUtils.isBlank(token)) {
+            return Optional.empty();
+        }
         Jws<Claims> jwsClaims = validateJwtToken(token);
         if (jwsClaims == null) {
             return Optional.empty();
@@ -59,7 +63,7 @@ public class JwtTokenProvider {
 
     public Jws<Claims> validateJwtToken(String authToken) {
         try {
-            return  Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature -> Message: {} ", e);
         } catch (MalformedJwtException e) {
