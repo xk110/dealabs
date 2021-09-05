@@ -40,8 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         // Add JWT token filter
-        httpSecurity.addFilterBefore(
-                jwtTokenFilter, UsernamePasswordAuthenticationFilter.class
-        );
+//        httpSecurity.addFilterBefore(
+//                jwtTokenFilter, UsernamePasswordAuthenticationFilter.class
+//        );
     }
 }
