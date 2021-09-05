@@ -37,11 +37,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/microservice-auth-service/signup/**").permitAll()
                 .antMatchers("/microservice-auth-service/signin/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().permitAll();// authenticated();
+                .anyRequest().authenticated();
 
         // Add JWT token filter
-//        httpSecurity.addFilterBefore(
-//                jwtTokenFilter, UsernamePasswordAuthenticationFilter.class
-//        );
+        httpSecurity.addFilterBefore(
+                jwtTokenFilter, UsernamePasswordAuthenticationFilter.class
+        );
     }
 }
