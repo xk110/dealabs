@@ -35,8 +35,8 @@ export class DealCreateComponent implements OnInit {
       price: ['', [Validators.required]],
       shippingFees: ['', [Validators.required]],
       link: ['', [Validators.required]],
-      startingDate: ['', [Validators.required]],
-      endingDate: ['', [Validators.required]],
+      startingDate: [''],
+      endingDate: [''],
     });
 
   }
@@ -59,19 +59,10 @@ export class DealCreateComponent implements OnInit {
         next: res => {
         },
         error: err => {
-          for (const feedback of err.error.feedbacks) {
-            this.messageService.add({
-              key: 'globalMessage',
-              severity: 'error',
-              summary: 'create',
-              detail: feedback.label ?
-                feedback.label : 'error_during_creation',
-              life: 5000
-            });
-          }
+          console.log(JSON.stringify(err));
         },
         complete: () => {
-          this.messageService.add({ severity: 'success', summary: 'create', detail: 'create_successful', life: 5000 });
+          this.messageService.add({ severity: 'success', summary: 'Création', detail: 'deal créé avec succès', life: 5000 });
           this.formGroupDirective.resetForm();
         }
       };
@@ -79,7 +70,7 @@ export class DealCreateComponent implements OnInit {
       this.dealSubscription = this.dealService.create(dealToCreate).subscribe(dealObserver);
 
     } else {
-      this.messageService.add({ severity: 'error', summary: 'create', detail: 'invalid_form', life: 5000 });
+      this.messageService.add({ severity: 'error', summary: 'Création', detail: 'Deal non créé - le formulaire est invalide', life: 5000 });
     }
   }
 

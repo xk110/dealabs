@@ -9,7 +9,7 @@ import { Comment } from './comment-model';
 })
 export class CommentService {
 
-private commentUrl = 'api/v1/comments';
+private commentUrl = 'api/comments';
 
 constructor(private http: HttpClient) {
 }

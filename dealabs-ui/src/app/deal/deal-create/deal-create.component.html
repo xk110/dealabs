@@ -7,78 +7,66 @@
         <div class="p-card-content">
 
             <div class="p-field col-12 md-3">
-                <label for="title">Title</label>
+                <label for="title">Titre</label>
                 <input pInputText type="text" id="title" formControlName="title" style="width: 50%;">
                 <!-- <p-message severity="error" text="title is required"
                     *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched"></p-message> -->
                 <small id="title-help" class="p-error"
-                    *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched">Title is
-                    required</small>
+                    *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched">Le titre est
+                    obligatoire</small>
             </div>
 
             <div class="p-field col-12 md-3">
                 <label for="description">Description</label>
                 <!-- <textarea [rows]="5" [cols]="30" pInputTextarea id="description" autoResize="autoResize"
                     formControlName="description"></textarea> -->
-                    <textarea id="description" formControlName="description" [rows]="5" [cols]="30" pInputTextarea [autoResize]="autoResize" style="width: 50%;"></textarea>
+                <textarea id="description" formControlName="description" [rows]="5" [cols]="30" pInputTextarea
+                    [autoResize]="autoResize" style="width: 50%;"></textarea>
                 <!-- <p-message severity="error" text="title is required"
                     *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched"></p-message> -->
                 <small id="description-help" class="p-error"
-                    *ngIf="dealForm.get('description')?.hasError('required') && dealForm.get('description')?.touched">Description
-                    is required</small>
+                    *ngIf="dealForm.get('description')?.hasError('required') && dealForm.get('description')?.touched">La
+                    description
+                    est obligatoire</small>
             </div>
 
             <div class="p-field col-12 md-3">
-                <label for="locale-france">Price</label>
+                <label for="locale-france">Prix</label>
                 <p-inputNumber id="price" inputId="locale-france" mode="decimal" locale="fr-FR" [minFractionDigits]="2"
                     formControlName="price"></p-inputNumber>
-                <p-message severity="error" text="price is required"
+                <p-message severity="error" text="Le prix est obligatoire"
                     *ngIf="dealForm.get('price')?.hasError('required') && dealForm.get('price')?.touched"></p-message>
             </div>
 
             <div class="p-field col-12 md-3">
-                <label for="locale-france">Shipping Fees</label>
+                <label for="locale-france">Frais de port</label>
                 <p-inputNumber id="shippingFees" inputId="locale-france" mode="decimal" locale="fr-FR"
                     [minFractionDigits]="2" formControlName="shippingFees"></p-inputNumber>
-                <p-message severity="error" text="shipping fees are required"
+                <p-message severity="error" text="Les frais de port sont obligatoires"
                     *ngIf="dealForm.get('shippingFees')?.hasError('required') && dealForm.get('shippingFees')?.touched">
                 </p-message>
             </div>
 
             <div class="p-field col-12 md-3">
-                <label for="link">Link</label>
+                <label for="link">Lien</label>
                 <input pInputText type="text" id="link" formControlName="link" style="width: 50%;">
                 <!-- <p-message severity="error" text="title is required"
                                     *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched"></p-message> -->
                 <small id="link-help" class="p-error"
-                    *ngIf="dealForm.get('link')?.hasError('required') && dealForm.get('link')?.touched">Link is
-                    required</small>
+                    *ngIf="dealForm.get('link')?.hasError('required') && dealForm.get('link')?.touched">Le lien
+                    est obligatoire</small>
             </div>
 
             <div class="p-field col-12 md-3">
-                <label for="startingDate">Starting Date</label>
+                <label for="startingDate">Date de début (si le deal n'a pas débuté)</label>
                 <p-calendar id="startingDate" formControlName="startingDate" [monthNavigator]="true"
                     [yearNavigator]="true" yearRange="2000:2030" inputId="navigators" [showIcon]="true"></p-calendar>
-                <!-- <p-message severity="error" text="title is required"
-                    *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched"></p-message> -->
-                <small id="startingDate-help" class="p-error"
-                    *ngIf="dealForm.get('startingDate')?.hasError('required') && dealForm.get('startingDate')?.touched">Starting
-                    Date
-                    is
-                    required</small>
             </div>
 
             <div class="p-field col-12 md-3">
-                <label for="endingDate">Ending Date</label>
+                <label for="endingDate">Expire le</label>
                 <p-calendar id="endingDate" formControlName="endingDate" [monthNavigator]="true" [yearNavigator]="true"
                     yearRange="2000:2030" inputId="navigators" [showIcon]="true"></p-calendar>
-                <!-- <p-message severity="error" text="title is required"
-                    *ngIf="dealForm.get('title')?.hasError('required') && dealForm.get('title')?.touched"></p-message> -->
-                <small id="endingDate-help" class="p-error"
-                    *ngIf="dealForm.get('endingDate')?.hasError('required') && dealForm.get('endingDate')?.touched">Ending
-                    Date
-                    is
-                    required</small>
             </div>
 
         </div>

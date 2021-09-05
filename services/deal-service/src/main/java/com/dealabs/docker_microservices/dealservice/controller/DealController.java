@@ -4,7 +4,6 @@ import com.dealabs.docker_microservices.dealservice.dao.DealDao;
 import com.dealabs.docker_microservices.dealservice.model.Deal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ public class DealController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DealController.class);
     private DealDao dealDao;
 
-    public DealController(DealDao dealDao){
+    public DealController(DealDao dealDao) {
         this.dealDao = dealDao;
     }
 
@@ -31,8 +30,8 @@ public class DealController {
     }
 
     @GetMapping(value = "/deals/{id}")
-    public Deal getById(@PathVariable int id) {
-        return dealDao.findById(id);
+    public ResponseEntity<Deal> getById(@PathVariable int id) {
+        return new ResponseEntity<Deal>(dealDao.findById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/deals")

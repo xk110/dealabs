@@ -8,7 +8,7 @@ import { Deal } from './deal-model';
   providedIn: 'root'
 })
 export class DealService {
-  private dealUrl = 'api/v1/deals';
+  private dealUrl = 'api/deals';
 
   constructor(private http: HttpClient) {
   }

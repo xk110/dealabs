@@ -19,7 +19,7 @@ public interface DealServiceProxy {
     ResponseEntity<List<DealBean>> getAll();
 
     @GetMapping(value = "/microservice-deal-service/deals/{id}")
-    DealBean getById(@PathVariable int id);
+    ResponseEntity<DealBean> getById(@PathVariable int id);
 
     @PostMapping(value = "/microservice-deal-service/deals")
     DealBean addDeal(@RequestBody DealBean deal);

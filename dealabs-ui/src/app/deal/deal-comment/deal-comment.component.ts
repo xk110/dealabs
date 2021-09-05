@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Observer, PartialObserver, Subscription } from 'rxjs';
-import { CommentService } from '../comment.service';
+import { TokenStorageService } from 'src/app/service/token-storage-service.service';
 import { Comment } from '../comment-model';
+import { CommentService } from '../comment.service';
 
 @Component({
   selector: 'app-deal-comment',
@@ -14,7 +15,8 @@ export class DealCommentComponent implements OnInit {
 
   @Input() idDeal: string;
   comment: string;
-  comments: Comment[];
+  comments: Comment[] = [];
+  isLoggedIn = false;
   public commentForm: FormGroup;
   public autoResize: boolean = true;
   first = 0;
@@ -22,18 +24,18 @@ export class DealCommentComponent implements OnInit {
   private dealSubscription: Subscription;
   private commentSubscription: Subscription;
 
-  @ViewChild(FormGroupDirective, { static: true }) private formGroupDirective: FormGroupDirective;
-
   constructor(
     public fb: FormBuilder,
     private messageService: MessageService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    private tokenStorageService: TokenStorageService
   ) { }
 
   ngOnInit(): void {
 
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
     this.commentForm = this.fb.group({
-      comment: ['', [Validators.required]]
+      comment: ['']
     });
 
     const commentObserver: PartialObserver<Comment[]> = {
@@ -79,20 +81,10 @@ export class DealCommentComponent implements OnInit {
         next: res => {
         },
         error: err => {
-          for (const feedback of err.error.feedbacks) {
-            this.messageService.add({
-              key: 'globalMessage',
-              severity: 'error',
-              summary: 'update',
-              detail: feedback.label ?
-                feedback.label : 'error_during_update',
-              life: 5000
-            });
-          }
+          console.log(JSON.stringify(err));
         },
         complete: () => {
-          this.messageService.add({ severity: 'success', summary: 'update', detail: 'update_successful', life: 5000 });
-          this.formGroupDirective.resetForm();
+          this.messageService.add({ severity: 'success', summary: 'Bravo', detail: 'Commentaire ajouté', life: 5000 });
           this.ngOnInit();
         }
       };
@@ -100,7 +92,7 @@ export class DealCommentComponent implements OnInit {
       this.dealSubscription = this.commentService.create(commentToCreate).subscribe(commentObserver);
 
     } else {
-      this.messageService.add({ severity: 'error', summary: 'update', detail: 'invalid_form', life: 5000 });
+      this.messageService.add({ severity: 'error', summary: 'Erreur', detail: 'Commentaire non validé', life: 5000 });
     }
   }
 

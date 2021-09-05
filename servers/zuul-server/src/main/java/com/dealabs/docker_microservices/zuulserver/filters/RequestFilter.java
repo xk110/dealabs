@@ -43,7 +43,7 @@ public class RequestFilter extends ZuulFilter {
             log.info("{}: {}", key, value);
         }
 
-        log.info("--> END {}" , request.getMethod());
+        log.info("--> END {}", request.getMethod());
 
         return null;
     }

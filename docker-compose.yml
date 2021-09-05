@@ -91,6 +91,24 @@ services:
     environment:
       - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
+      
+  auth-service:
+    build:
+      context: ./services/auth-service
+      dockerfile: ./Dockerfile
+    ports:
+      - 9003:9003
+    networks:
+      - back-network
+      - front-network
+    depends_on:
+      - eureka-server
+      - zuul-server
+    command: 
+      sh -c "chmod +x wait-for-it.sh && apk add --no-cache bash && ./wait-for-it.sh eureka-server:9102 && java -jar /auth-service.jar"
+    environment:
+      - SPRING_CLOUD_CONFIG_URI=http://config-server:9100
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:9102/eureka
 
   dealabs-ui:
     build:

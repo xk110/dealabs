@@ -4,8 +4,9 @@ import { map, tap } from 'rxjs/operators';
 import { User } from '../login/user-model';
 import { SignUpForm } from '../login/signUpForm-model';
 import { LoginForm } from '../login/loginForm-model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { JwtResponse } from '../auth/jwt-response';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,16 +14,19 @@ import { JwtResponse } from '../auth/jwt-response';
 
 export class AuthenticationService {
 
+  itemValue = new Subject<string>();
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
 
-  private loginUrl = 'api/v1/signin';
-  private signupUrl = 'api/v1/signup';
+  private loginUrl = 'api/signin';
+  private signupUrl = 'api/signup';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private messageService: MessageService
   ) {
   }
 
@@ -45,13 +49,19 @@ export class AuthenticationService {
   }
 
 
-  isUserLoggedIn() {
-    let user = sessionStorage.getItem('username')
-    console.log(!(user === null))
-    return !(user === null)
+  loginlogout(name: string) {
+    this.itemValue.next(name);
   }
 
   logOut() {
-    sessionStorage.removeItem('username')
+    sessionStorage.clear();
+    this.loginlogout("Connexion");
+    this.messageService.add({
+      key: 'myToast',
+      severity: 'success',
+      summary: 'Déconnexion',
+      detail: 'Déconnexion effectuée avec succès'
+    });
+    //window.location.reload();
   }
 }

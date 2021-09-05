@@ -5,14 +5,10 @@ import { MessageService } from 'primeng/api';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Observer } from 'rxjs';
 import { JwtResponse } from '../auth/jwt-response';
-import { DealService } from '../deal/deal.service';
 import { AuthenticationService } from '../service/authentication.service';
 import { TokenStorageService } from '../service/token-storage-service.service';
 import { LoginForm } from './loginForm-model';
 import { SignUpForm } from './signUpForm-model';
-import { User } from './user-model';
-
-// export type loginAction = 'register' | 'signIn' | 'forgotPassword';
 
 @Component({
   selector: 'app-login',
@@ -23,9 +19,6 @@ import { User } from './user-model';
 export class LoginComponent implements OnInit {
 
   public form: FormGroup;
-  // public registerForm: FormGroup;
-  // public login: boolean = true;
-  // public register: boolean = false;
 
   private signUpForm: SignUpForm = {
     username: '',
@@ -68,11 +61,8 @@ export class LoginComponent implements OnInit {
 
     // Empty form group
     this.form = new FormGroup({});
-
     this.page = "signIn";
-
     this.submitButton = "Connexion";
-    // this.button2="Créer un compte";
   }
 
   ngOnInit(): void {
@@ -84,7 +74,6 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     switch (this.page) {
       case 'signUp':
-        console.log(this.form.get('username')?.value);
         this.signUpForm.username = this.form.get('username')?.value;
         this.signUpForm.email = this.form.get('email')?.value;
         this.signUpForm.password = this.form.get('password')?.value;
@@ -95,7 +84,6 @@ export class LoginComponent implements OnInit {
           next: data => {
             console.log("data : " + data)
             this.router.navigate([''])
-            // this.invalidLogin = false
           },
           error: err => {
             console.log("error")
@@ -103,7 +91,7 @@ export class LoginComponent implements OnInit {
             this.messageService.add({
               key: 'myToast',
               severity: 'error',
-              summary: "signup",
+              summary: "Création",
               detail: err.error.message,
               life: 5000
             })
@@ -114,18 +102,14 @@ export class LoginComponent implements OnInit {
             this.messageService.add({
               key: 'myToast',
               severity: 'success',
-              summary: 'signup',
-              detail: 'signup_successful'
+              summary: 'Création',
+              detail: 'Création effectuée avec succès'
             });
             this.dialog.close();
           }
         };
-        // this.cleanTable(table);
 
         this.loginservice.signUp(this.signUpForm).subscribe(signUpObserver);
-
-
-
 
         break;
       case 'signIn':
@@ -134,30 +118,34 @@ export class LoginComponent implements OnInit {
 
         const signInObserver: Observer<JwtResponse> = {
           next: data => {
-            console.log("data.accessToken : " + data.accessToken);
-            this.tokenStorage.saveToken(data.accessToken);
+            console.log("data.accessToken : " + data.token);
+            this.tokenStorage.saveToken(data.token);
             this.tokenStorage.saveUsername(data.username);
             this.tokenStorage.saveAuthorities(data.authorities);
           },
           error: err => {
-            console.log(err.error.message)
+            this.loginservice.loginlogout("Connexion");
+            console.log("err:" + JSON.stringify(err))
+            console.log("err.error:" + JSON.stringify(err.error))
             this.messageService.add({
               key: 'myToast',
               severity: 'error',
-              summary: "signin",
+              summary: "Connexion",
               detail: err.error.message,
               life: 5000
             })
 
           },
           complete: () => {
+            this.loginservice.loginlogout("Déconnexion (" + this.loginForm.username + ")");
             this.messageService.add({
               key: 'myToast',
               severity: 'success',
-              summary: 'signin',
-              detail: 'signin_successful'
+              summary: 'Connexion',
+              detail: 'Connexion effectuée avec succès'
             });
             this.dialog.close();
+            //window.location.reload();
           }
         };
 
@@ -170,9 +158,6 @@ export class LoginComponent implements OnInit {
   }
 
   public switchPage(page: string) {
-    // Resets the status
-    // this.showPassword = this.progress = false;
-    // this.errorCode = null;
 
     this.form = this.fb.group({
       email: ['', [Validators.required]],
@@ -180,21 +165,13 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]]
     });
 
-    // this.form.reset();
-
     // Removes all the controls from the form group
     Object.keys(this.form.controls).forEach(control => {
       this.form.removeControl(control);
     });
 
-    // this.username.setValue("");
-    // this.email.setValue("");
-    // this.password.setValue("");
-
     // Add the relevant controls to the form according to selected page
     switch (this.page = page) {
-
-      // case 'social': break;
 
       case 'signUp':
         //this.form.controls.password?.setValue("");
@@ -208,13 +185,14 @@ export class LoginComponent implements OnInit {
         this.form.addControl('username', this.username);
         this.form.addControl('password', this.password);
         this.submitButton = "Connexion";
-        // this.button2="Créer un compte";
         break;
 
       case 'forgotPassword':
         this.form.addControl('username', this.username);
         this.submitButton = "Réinitialiser le mot de passe";
         break;
+
+      // case 'social': break;
 
       // case 'resetPassword':
       // this.form.addControl('newPassword', this.newPassword);

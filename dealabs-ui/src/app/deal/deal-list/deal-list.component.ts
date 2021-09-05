@@ -1,6 +1,7 @@
+import { error } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LazyLoadEvent } from 'primeng/api';
+import { LazyLoadEvent, MessageService } from 'primeng/api';
 import { PartialObserver } from 'rxjs';
 import { Deal } from '../deal-model';
 import { DealService } from '../deal.service';
@@ -19,7 +20,8 @@ export class DealListComponent implements OnInit {
 
   constructor(
     private dealService: DealService,
-    private router: Router) {
+    private router: Router,
+    private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -28,7 +30,19 @@ export class DealListComponent implements OnInit {
       next: data => {
         this.deals = data;
         this.virtualDeals = Array.from({ length: data.length });
-      }
+      },
+      error: err => {
+        console.log(err.error.message)
+        console.log("err:" + JSON.stringify(err))
+        console.log("err.error:" + JSON.stringify(err.error))   
+        this.messageService.add({
+          key: 'myToast',
+          severity: 'error',
+          summary: "deal list error",
+          detail: err.error.message,
+          life: 5000
+        })
+      },
     };
 
     this.dealService.getAll().subscribe(dealObserver);
