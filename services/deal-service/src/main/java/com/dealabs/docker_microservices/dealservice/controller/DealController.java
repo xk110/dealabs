@@ -11,6 +11,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DealController {
@@ -23,7 +24,10 @@ public class DealController {
     }
 
     @GetMapping(value = "/deals")
-    public ResponseEntity<List<Deal>> getAll() {
+    public ResponseEntity<List<Deal>> getAll(@RequestHeader Map<String, String> headers) {
+        headers.forEach((key, value) -> {
+            LOGGER.info(String.format("Header '%s' = %s", key, value));
+        });
         List<Deal> listOfDeals = dealDao.findAll();
         LOGGER.info("listOfDeals {}", listOfDeals);
         return new ResponseEntity<List<Deal>>(listOfDeals, HttpStatus.OK);

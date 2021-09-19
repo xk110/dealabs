@@ -13,9 +13,11 @@ import java.util.List;
 
 @FeignClient(name = "zuul-server")
 @RibbonClient(name = "microservice-deal-service")
+//@FeignClient(name = "microservice-deal-service", url = "localhost:9001")
 public interface DealServiceProxy {
 
     @GetMapping(value = "/microservice-deal-service/deals")
+    //@GetMapping(value = "/deals")
     ResponseEntity<List<DealBean>> getAll();
 
     @GetMapping(value = "/microservice-deal-service/deals/{id}")

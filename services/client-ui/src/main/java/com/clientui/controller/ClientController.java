@@ -10,11 +10,14 @@ import com.clientui.proxies.DealServiceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/api")
 public class ClientController {
@@ -33,7 +36,10 @@ public class ClientController {
     private LoginForm loginForm;
 
     @GetMapping(value = "/deals")
-    public ResponseEntity<List<DealBean>> getAll() {
+    public ResponseEntity<List<DealBean>> getAll(@RequestHeader Map<String, String> headers) {
+        headers.forEach((key, value) -> {
+            LOGGER.info(String.format("Header '%s' = %s", key, value));
+        });
         return dealServiceProxy.getAll();
     }
 
